@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>Scanner de Folhas - Detecção de Orientação</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>📝 Scanner Inteligente de Folhas</h2>
+
+  <div id="videoContainer">
+    <video id="video" autoplay playsinline></video>
+    <div id="frame"></div>
+  </div>
+
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <div id="status">Carregando...</div>
+  <button id="captureBtn">Salvar imagem</button>
+
+  <h3>📊 Histórico de capturas</h3>
+  <table id="resultados">
+    <thead><tr><th>Data/Hora</th><th>Status</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Carrega OpenCV.js -->
+  <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();"></script>
+  <script src="app.js"></script>
+</body>
+</html>

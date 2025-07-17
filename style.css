@@ -1,0 +1,55 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f7f7f7;
+  margin: 0;
+  padding: 20px;
+}
+
+#videoContainer {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+#video {
+  width: 100%;
+  height: auto;
+  border: 2px solid #444;
+}
+
+#frame {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  border: 4px dashed #4caf50;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+#status {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+button {
+  margin: 10px 0;
+  padding: 8px 16px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #888;
+  padding: 8px;
+  background: #fff;
+}
