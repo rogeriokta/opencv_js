@@ -2,20 +2,29 @@ let video = document.getElementById("video");
 let canvas = document.getElementById("canvas");
 let statusDiv = document.getElementById("status");
 let resultadosTable = document.querySelector("#resultados tbody");
+let cameraSelect = document.getElementById("cameraSelect");
+let selectedDeviceId = null;
 
 function onOpenCvReady() {
-  statusDiv.textContent = "✅ OpenCV carregado! Iniciando câmera...";
+  statusDiv.textContent = "✅ OpenCV carregado!";
 
-  navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-    video.srcObject = stream;
-    video.onloadedmetadata = () => {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      processFrame();
-    };
-  }).catch(err => {
-    statusDiv.textContent = "❌ Erro ao acessar câmera: " + err;
+  navigator.mediaDevices.enumerateDevices().then(devices => {
+    devices.forEach(device => {
+      if (device.kind === "videoinput") {
+        let option = document.createElement("option");
+        option.value = device.deviceId;
+        option.text = device.label || `Câmera ${cameraSelect.length + 1}`;
+        cameraSelect.appendChild(option);
+      }
+    });
   });
+
+  cameraSelect.onchange = () => {
+    selectedDeviceId = cameraSelect.value;
+    iniciarCamera();
+  };
+
+  iniciarCamera();
 
   document.getElementById("captureBtn").onclick = () => {
     let link = document.createElement("a");
@@ -28,6 +37,27 @@ function onOpenCvReady() {
     row.insertCell().textContent = new Date().toLocaleString();
     row.insertCell().textContent = resultado;
   };
+}
+
+function iniciarCamera() {
+  if (video.srcObject) {
+    video.srcObject.getTracks().forEach(track => track.stop());
+  }
+
+  let constraints = selectedDeviceId
+    ? { deviceId: { exact: selectedDeviceId } }
+    : { facingMode: "environment" };
+
+  navigator.mediaDevices.getUserMedia({ video: constraints }).then(stream => {
+    video.srcObject = stream;
+    video.onloadedmetadata = () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      processFrame();
+    };
+  }).catch(err => {
+    statusDiv.textContent = "❌ Erro ao acessar câmera: " + err;
+  });
 }
 
 function processFrame() {
